@@ -7,6 +7,7 @@ class TColors {
   static const kPrimaryColor = Color(0xFF1DB7C2);
   static const kPrimaryColorLight = Color.fromARGB(255, 201, 239, 242);
   static const kLightGrey = Color(0xFFF3F3F3);
+  static const Color secondary = Color(0xFF121212);
   static const Color darkGrey = Color(0xFF282828);
   static const Color grey = Color(0xFF777777);
   static const Color white = Color(0xFFFFFFFF);
@@ -26,6 +27,10 @@ class TColors {
   static const Color buttonPrimary = Color(0xFF1DB7C2);
   static const Color buttonSecondary = Color.fromARGB(255, 201, 239, 242);
   static const Color buttonDisabled = Color(0xFF9E9E9E);
+
+  // Background Container Colors
+  static const Color lightContainer = Color(0xFFEEEEEE);
+  static const Color darkContainer = Color(0xFF9E9E9E);
 
   // Error and Validation Colors
   static const Color error = Color(0xFFD32F2F);

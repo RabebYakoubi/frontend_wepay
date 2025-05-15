@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-//import 'package:frontend_wepay/screens/launch.dart';
-import 'package:frontend_wepay/screens/test.dart';
+import 'package:frontend_wepay/screens/launch.dart';
+import 'package:frontend_wepay/utils/theme.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +13,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const Test(),
+      debugShowCheckedModeBanner: false,
+      themeMode: ThemeMode.system,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      home: const Launch(),
     );
   }
 }
