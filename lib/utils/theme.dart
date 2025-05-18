@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend_wepay/utils/constants/colors.dart';
 import 'package:frontend_wepay/utils/theme/appbar_theme.dart';
+import 'package:frontend_wepay/utils/theme/bottom_sheet_theme.dart';
 import 'package:frontend_wepay/utils/theme/dialog_theme.dart';
 import 'package:frontend_wepay/utils/theme/elevated_button_theme.dart';
 import 'package:frontend_wepay/utils/theme/outlined_button_theme.dart';
@@ -26,6 +27,7 @@ class AppTheme {
     dialogTheme: TDialogTheme.lightDialogTheme,
     textButtonTheme: TTextButtonTheme.lightTextButtonTheme,
     inputDecorationTheme: TTextFormFieldTheme.lightInputDecorationTheme,
+    bottomSheetTheme: TBottomSheetTheme.lightBottomSheetTheme,
   );
 
   // Dark Theme
@@ -42,5 +44,6 @@ class AppTheme {
     dialogTheme: TDialogTheme.darkDialogTheme,
     textButtonTheme: TTextButtonTheme.darkTextButtonTheme,
     inputDecorationTheme: TTextFormFieldTheme.darkInputDecorationTheme,
+    bottomSheetTheme: TBottomSheetTheme.darkBottomSheetTheme,
   );
 }
