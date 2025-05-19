@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:frontend_wepay/screens/login_page.dart';
-import 'package:frontend_wepay/screens/password_page.dart';
-import 'package:frontend_wepay/screens/signup_page.dart';
+import 'package:frontend_wepay/screens/launch/login_page.dart';
+import 'package:frontend_wepay/screens/launch/password_page.dart';
+import 'package:frontend_wepay/screens/launch/signup_page.dart';
 import 'package:frontend_wepay/utils/constants/colors.dart';
 
 class HomePage extends StatelessWidget {

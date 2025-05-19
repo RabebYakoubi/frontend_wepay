@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontend_wepay/screens/free_page.dart';
+import 'package:frontend_wepay/screens/free/free_page.dart';
+import 'package:frontend_wepay/screens/integrated/configuration_page.dart';
 import 'package:frontend_wepay/utils/constants/colors.dart';
 
 class PaiementPage extends StatefulWidget {
@@ -64,7 +65,36 @@ class _PaiementPageState extends State<PaiementPage> {
                     const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () {
-                        // Action for Integrated Payment
+                        // Show a dialog
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text("Select a component"),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                ListTile(
+                                  leading: const Icon(Icons.business),
+                                  title: const Text("CRM"),
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                      Navigator.push(
+                                        context,
+                                          MaterialPageRoute(
+                                          builder: (context) => ConfigurationPage(),)
+                                      );
+                                  },
+                                ),
+                                const Divider(),
+                                ListTile(
+                                  leading: const Icon(Icons.point_of_sale),
+                                  title: const Text("Caisse"),
+                                  onTap: () {},
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size(double.infinity, 70),

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:frontend_wepay/screens/boarding.dart';
+import 'package:frontend_wepay/screens/launch/boarding.dart';
 import 'package:frontend_wepay/utils/constants/colors.dart';
 
 class Launch extends StatefulWidget {

@@ -1,39 +1,38 @@
 import 'package:flutter/material.dart';
 
-class TestBottomSheet extends StatelessWidget {
+class TestShowDialog extends StatelessWidget {
+  const TestShowDialog({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Test des BottomSheet')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: ElevatedButton(
-            onPressed: () {
-              // Affiche le BottomSheet en fonction du thème actuel
-              showModalBottomSheet(
-                context: context,
-                builder: (BuildContext context) {
-                  return Container(
-                    padding: EdgeInsets.all(16.0),
-                    child: Center(
-                      child: Text(
-                        'Ceci est un BottomSheet',
-                        style: Theme.of(context).textTheme.headlineMedium,
-                      ),
+      appBar: AppBar(title: Text('Test ShowDialog')),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            // Show a dialog
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text(
+                    'Dialog Title',
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                  content: Text('This is a dialog to test the theme.'),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text('Close'),
                     ),
-                  );
-                },
-                // backgroundColor:
-                //     Theme.of(context).bottomSheetTheme.backgroundColor,
-                // shape: Theme.of(context).bottomSheetTheme.shape,
-                // showDragHandle:
-                //     Theme.of(context).bottomSheetTheme.showDragHandle,
-                // constraints: Theme.of(context).bottomSheetTheme.constraints,
-              );
-            },
-            child: Text('Afficher BottomSheet'),
-          ),
+                  ],
+                );
+              },
+            );
+          },
+          child: Text('Show Dialog'),
         ),
       ),
     );

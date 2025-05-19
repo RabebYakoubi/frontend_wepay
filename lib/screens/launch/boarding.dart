@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontend_wepay/screens/home_page.dart';
-import '../controllers/onboarding_controller.dart';
+import 'package:frontend_wepay/screens/launch/home_page.dart';
+import '../../controllers/onboarding_controller.dart';
 import 'package:frontend_wepay/utils/constants/colors.dart';
 
 class BoardingView extends StatefulWidget {
