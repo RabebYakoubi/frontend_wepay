@@ -27,7 +27,7 @@ class _PaiementPageState extends State<PaiementPage> {
               ),
             ),
           ),
-          const SizedBox(height: 50),
+          const SizedBox(height: 70),
           Expanded(
             child: Container(
               width: double.infinity,
