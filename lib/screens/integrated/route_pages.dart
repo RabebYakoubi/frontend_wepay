@@ -38,7 +38,7 @@ class _RoutePagesState extends State<RoutePages> {
           child: GNav(
             gap: 10,
             padding: EdgeInsets.all(12),
-            color: isLight ? TColors.secondary : TColors.white,
+            color: isLight ? TColors.secondary : TColors.kPrimaryColorLight,
             activeColor: TColors.kPrimaryColor,
             duration: Duration(milliseconds: 600),
             onTabChange: (index) {

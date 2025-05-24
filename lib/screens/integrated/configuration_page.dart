@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:frontend_wepay/screens/integrated/services_page.dart';
 import 'package:frontend_wepay/utils/constants/colors.dart';
+import 'package:http/http.dart' as http;
 
 class ConfigurationPage extends StatefulWidget {
   const ConfigurationPage({super.key});
@@ -149,14 +150,35 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
 
                         Align(
                           child: ElevatedButton(
-                            onPressed: () {
+                            onPressed: () async {
                               if (_formkey.currentState!.validate()) {
                                 int nbServices = int.tryParse(_nbserviceController.text) ?? 0;
                                 print("Configuration validée");
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) =>  ServicesPage(numberOfServices: nbServices)),
-                              );
+
+                                if (_selectedType == 'Rest') {
+                                  final url = _urlController.text;
+                                  final headers = {
+                                    'Authorization': _selectedSecurityType == 'Bearer' || _selectedSecurityType == 'JWT'
+                                        ? 'Bearer ${_codesecuriteController.text}'
+                                        : _selectedSecurityType == 'API Key'
+                                          ? 'Api-Key ${_codesecuriteController.text}'
+                                          : '',
+                                  };
+
+                                  try {
+                                    final response = await http.get(Uri.parse(url), headers: headers);
+                                    print('Response: ${response.statusCode} - ${response.body}');
+                                  } catch (e) {
+                                    print('Erreur lors de l\'appel API : $e');
+                                  }
+                                }
+
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ServicesPage(numberOfServices: nbServices),
+                                  ),
+                                );
                               } else {
                                 print("Erreur de validation");
                               }

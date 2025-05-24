@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend_wepay/screens/profil_page.dart';
 import 'package:frontend_wepay/utils/constants/colors.dart';
 
 class FreePaiementPage extends StatefulWidget {
@@ -56,9 +57,9 @@ void validateAmount() {
             ),
             const SizedBox(height: 16),
             Image.asset(
-              'assets/icons/sans-contact.png',
-                height: 150, // augmente la hauteur
-                width: 150,  // optionnel, pour forcer une largeur
+              'assets/images/WePay-Logo-mini.png',
+                // height: 150, // augmente la hauteur
+                // width: 150,  // optionnel, pour forcer une largeur
                 fit: BoxFit.contain,
             ),
           ],
@@ -78,40 +79,47 @@ Widget buildNumberPad() {
   ];
 
   return Expanded(
-    child: GridView.builder(
-      padding: const EdgeInsets.only(top: 60),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        mainAxisSpacing: 10,
-        crossAxisSpacing: 10,
-        childAspectRatio: 1.5, // largeur / hauteur
-      ),
-      itemCount: keys.length,
-      itemBuilder: (context, index) {
-        final key = keys[index];
-        return ElevatedButton(
-          onPressed: () {
-            if (key == '→') {
-              validateAmount();
-            } else {
-              addDigit(key);
-            }
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: TColors.buttonPrimary,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
+  child: Align(
+    alignment: Alignment.center,
+    child: SizedBox(
+      width: 330, // ou n'importe quelle largeur fixe
+      child: GridView.builder(
+        padding: const EdgeInsets.only(top: 50),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 10,
+          childAspectRatio: 1.1,
+        ),
+        itemCount: keys.length,
+        itemBuilder: (context, index) {
+          final key = keys[index];
+          return ElevatedButton(
+            onPressed: () {
+              if (key == '→') {
+                validateAmount();
+              } else {
+                addDigit(key);
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: TColors.buttonPrimary,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              padding: const EdgeInsets.all(10),
             ),
-            padding: const EdgeInsets.all(20),
-          ),
-          child: Text(
-            key,
-            style: const TextStyle(fontSize: 24, color: Colors.white),
-          ),
-        );
-      },
+            child: Text(
+              key,
+              style: const TextStyle(fontSize: 24, color: Colors.white),
+            ),
+          );
+        },
+      ),
     ),
-  );
+  ),
+);
+
 }
 
 
@@ -122,10 +130,15 @@ Widget buildNumberPad() {
           title: Text(
             "Transfer",
             style: Theme.of(context).textTheme.headlineMedium!,
-),
+          ),
         actions: [
-          IconButton(icon: Icon(Icons.home), onPressed: () {}),
-          IconButton(icon: Icon(Icons.person), onPressed: () {}),
+          IconButton(icon: Icon(Icons.history), onPressed: () {}),
+          IconButton(icon: Icon(Icons.person), onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ProfilPage()),
+            );
+          }),
         ],
       ),
       backgroundColor: TColors.kPrimaryColorLight,

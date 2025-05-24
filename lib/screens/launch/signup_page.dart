@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:frontend_wepay/screens/paiement_page.dart';
 import 'package:frontend_wepay/utils/constants/colors.dart';
 
 class SignupPage extends StatefulWidget {
@@ -51,9 +52,10 @@ class _SignupPageState extends State<SignupPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: TColors.kPrimaryColor,
+      appBar: AppBar(),
       body: Column(
         children: [
-          const SizedBox(height: 50),
+          //const SizedBox(height: 50),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Text(
@@ -189,6 +191,10 @@ class _SignupPageState extends State<SignupPage> {
                               onPressed: () {
                                 if (_formkey.currentState!.validate()) {
                                   print("Success");
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => const PaiementPage()),
+                                    );
                                 } else {
                                   print("Failure");
                                 }

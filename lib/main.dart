@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend_wepay/screens/launch/launch.dart';
+import 'package:frontend_wepay/screens/paiement_page.dart';
 import 'package:frontend_wepay/utils/theme.dart';
 
 
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      home:  const Launch(),
+      home:  const PaiementPage(),
     );
   }
 }

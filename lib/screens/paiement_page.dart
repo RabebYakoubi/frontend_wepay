@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend_wepay/screens/free/free_page.dart';
 import 'package:frontend_wepay/screens/integrated/configuration_page.dart';
+import 'package:frontend_wepay/screens/profil_page.dart';
 import 'package:frontend_wepay/utils/constants/colors.dart';
 
 class PaiementPage extends StatefulWidget {
@@ -14,10 +15,21 @@ class _PaiementPageState extends State<PaiementPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+            appBar: AppBar(
+        actions: [
+          IconButton(icon: Icon(Icons.person),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ProfilPage()),
+            );
+          }),
+        ],
+      ),
       backgroundColor: TColors.kPrimaryColorLight,
       body: Column(
         children: [
-          const SizedBox(height: 150),
+          const SizedBox(height: 90),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Center(

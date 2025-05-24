@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:frontend_wepay/screens/test.dart';
 import 'package:frontend_wepay/utils/constants/colors.dart';
 
 class ServicesPage extends StatefulWidget {
@@ -155,7 +156,10 @@ class _ServicesPageState extends State<ServicesPage> {
                   onPressed: () {
                     if (_formkey.currentState!.validate()) {
                       print("Service validée");
-                      // Tu peux ici envoyer les données
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const Test()),
+                          );
                     } else {
                       print("Erreur de validation");
                     }

@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:frontend_wepay/screens/launch/password_page.dart';
+import 'package:frontend_wepay/screens/paiement_page.dart';
 import 'package:frontend_wepay/utils/constants/colors.dart';
 
 class LoginPage extends StatefulWidget {
@@ -35,9 +37,10 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: TColors.kPrimaryColor,
+          appBar: AppBar(),
       body: Column(
         children: [
-          const SizedBox(height: 150),
+          //const SizedBox(height: 50),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Text(
@@ -125,6 +128,10 @@ class _LoginPageState extends State<LoginPage> {
                               onPressed: () {
                                   if (_formkey.currentState!.validate()) {
                                   print("Success");
+                                      Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => const PaiementPage()),
+                                    );
                                 } else {
                                   print("Failure");
                                 }
@@ -138,7 +145,12 @@ class _LoginPageState extends State<LoginPage> {
                         const SizedBox(height: 10),
                         Center(
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                                Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const PasswordPage()),
+                      );
+                            },
                             child:  Text(
                               "Forget Password?",
                               style:Theme.of(context).textTheme.titleSmall!.copyWith(color: TColors.dark),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:frontend_wepay/screens/launch/signup_page.dart';
 import 'package:frontend_wepay/utils/constants/colors.dart';
 
 class PasswordPage extends StatefulWidget {
@@ -30,9 +31,10 @@ class _PasswordPageState extends State<PasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: TColors.kPrimaryColor,
+      appBar: AppBar(),
       body: Column(
         children: [
-          const SizedBox(height: 150),
+          const SizedBox(height: 90),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Text(
@@ -104,7 +106,12 @@ class _PasswordPageState extends State<PasswordPage> {
                         const SizedBox(height: 10),
                         Center(
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                                Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const SignupPage()),
+                      );
+                            },
                             child:  Text(
                               "Sign Up?",
                               style:Theme.of(context).textTheme.titleSmall!,
