@@ -4,6 +4,7 @@ import 'package:frontend_wepay/screens/integrated/nav_pages/nav_client.dart';
 import 'package:frontend_wepay/screens/integrated/nav_pages/nav_facture.dart';
 import 'package:frontend_wepay/screens/integrated/nav_pages/nav_panier.dart';
 import 'package:frontend_wepay/screens/integrated/nav_pages/nav_product.dart';
+import 'package:frontend_wepay/screens/profil_page.dart';
 
 import 'package:google_nav_bar/google_nav_bar.dart';
 
@@ -32,6 +33,15 @@ class _RoutePagesState extends State<RoutePages> {
       child: Scaffold(
         appBar: AppBar(
           title: Image.asset("assets/images/WePay-Logo-mini.png", height: 50),
+          actions: [
+          IconButton(icon: Icon(Icons.person),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ProfilPage()),
+            );
+          }),
+        ],
         ),
         bottomNavigationBar: Padding(
           padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
