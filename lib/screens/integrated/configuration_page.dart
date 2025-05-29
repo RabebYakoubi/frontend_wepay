@@ -19,10 +19,11 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
   late TextEditingController _nbserviceController;
   late String? _selectedSecurityType;
   late TextEditingController _codesecuriteController;
+  late TextEditingController _consumerKeyController;
+  late TextEditingController _consumerSecretController;
   late GlobalKey<FormState> _formkey;
 
   bool _isObscure = true;
-  //bool _isObscureConfirm = true;
 
   @override
   void initState() {
@@ -31,6 +32,8 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
     _urlController = TextEditingController();
     _nbserviceController = TextEditingController();
     _codesecuriteController = TextEditingController();
+    _consumerKeyController = TextEditingController();
+    _consumerSecretController = TextEditingController();
     _selectedType = null;
     _selectedSecurityType = null;
     _formkey = GlobalKey<FormState>();
@@ -42,6 +45,8 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
     _urlController.dispose();
     _nbserviceController.dispose();
     _codesecuriteController.dispose();
+    _consumerKeyController.dispose();
+    _consumerSecretController.dispose();
     super.dispose();
   }
 
@@ -49,11 +54,11 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: TColors.kPrimaryColor,
-              appBar: AppBar(
-          title: Text(
-            "Configure API",
-            style: Theme.of(context).textTheme.headlineMedium!,
-          ),
+      appBar: AppBar(
+        title: Text(
+          "Configure API",
+          style: Theme.of(context).textTheme.headlineMedium!,
+        ),
       ),
       body: Column(
         children: [
@@ -77,8 +82,6 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 40),
-
-                        // Labelle
                         const Text("Label", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                         const SizedBox(height: 10),
                         TextFormField(
@@ -86,68 +89,63 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
                           decoration: _buildInputDecoration("Label", Icons.label),
                           validator: RequiredValidator(errorText: "Label is required"),
                         ),
-
                         const SizedBox(height: 20),
-
-                        // Type Dropdown
                         const Text("Type", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                         const SizedBox(height: 10),
                         DropdownButtonFormField<String>(
                           value: _selectedType,
-                          items: ['Rest',' Soap', 'Graphql']
+                          items: ['Rest', 'Soap', 'Graphql']
                               .map((type) => DropdownMenuItem(value: type, child: Text(type)))
                               .toList(),
                           decoration: _buildInputDecoration("Select Type", Icons.category),
                           onChanged: (value) => setState(() => _selectedType = value),
                           validator: (value) => value == null ? "Please select a type" : null,
                         ),
-
                         const SizedBox(height: 20),
 
-                      if (_selectedType == 'Rest') ...[
-                        // URL
-                        const Text("API URL", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                        const SizedBox(height: 10),
-                        TextFormField(
-                          controller: _urlController,
-                          decoration: _buildInputDecoration("URL", Icons.link),
-                          validator: RequiredValidator(errorText: "URL is required"),
-                        ),
+                        if (_selectedType == 'Rest') ...[
 
-                        const SizedBox(height: 20),
+                          const Text("API URL", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                          TextFormField(
+                            controller: _urlController,
+                            decoration: _buildInputDecoration("URL", Icons.link),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Veuillez entrer l\'URL';
+                              }
+                              if (!value.startsWith('http://') && !value.startsWith('https://')) {
+                                return 'The URL must start with http:// or https://';
+                              }
+                              return null;
+                            },
+                          ),
 
-                        // Number of Services
-                        const Text("Number of Services", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                        const SizedBox(height: 10),
-                        TextFormField(
-                          controller: _nbserviceController,
-                          keyboardType: TextInputType.number,
-                          decoration: _buildInputDecoration("Number of Services", Icons.confirmation_number),
-                          validator: RequiredValidator(errorText: "Champ requis"),
-                        ),
+                          const SizedBox(height: 20),
+                          const Text("Number of Services", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                          const SizedBox(height: 10),
+                          TextFormField(
+                            controller: _nbserviceController,
+                            keyboardType: TextInputType.number,
+                            decoration: _buildInputDecoration("Number of Services", Icons.confirmation_number),
+                            validator: RequiredValidator(errorText: "Champ requis"),
+                          ),
 
-                        const SizedBox(height: 20),
-
-                        // Type de sécurité
-                        const Text("Security Type", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                        const SizedBox(height: 10),
-                        DropdownButtonFormField<String>(
-                          value: _selectedSecurityType,
-                          items: ['JWT', 'OAuth2', 'API Key','Bearer']
-                              .map((type) => DropdownMenuItem(value: type, child: Text(type)))
-                              .toList(),
-                          decoration: _buildInputDecoration("Security Type", Icons.security),
-                          onChanged: (value) => setState(() => _selectedSecurityType = value),
-                          validator: (value) => value == null ? "Please select a type" : null,
-                        ),
-
-                        const SizedBox(height: 20),
-
-                        // Code sécurité
-                        _buildSecurityCodeField(),
-                    ],
+                          const SizedBox(height: 20),
+                          const Text("Security Type", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                          const SizedBox(height: 10),
+                          DropdownButtonFormField<String>(
+                            value: _selectedSecurityType,
+                            items: ['JWT', 'OAuth 1.0', 'OAuth 2.0', 'API Key', 'Bearer Token', 'Basic Auth', 'No Auth']
+                                .map((type) => DropdownMenuItem(value: type, child: Text(type)))
+                                .toList(),
+                            decoration: _buildInputDecoration("Security Type", Icons.security),
+                            onChanged: (value) => setState(() => _selectedSecurityType = value),
+                            validator: (value) => value == null ? "Please select a type" : null,
+                          ),
+                          const SizedBox(height: 20),
+                          _buildAuthFields(),
+                        ],
                         const SizedBox(height: 60),
-
                         Align(
                           child: ElevatedButton(
                             onPressed: () async {
@@ -161,8 +159,8 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
                                     'Authorization': _selectedSecurityType == 'Bearer' || _selectedSecurityType == 'JWT'
                                         ? 'Bearer ${_codesecuriteController.text}'
                                         : _selectedSecurityType == 'API Key'
-                                          ? 'Api-Key ${_codesecuriteController.text}'
-                                          : '',
+                                            ? 'Api-Key ${_codesecuriteController.text}'
+                                            : '',
                                   };
 
                                   try {
@@ -225,12 +223,41 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
     );
   }
 
-  Widget _buildSecurityCodeField() {
-  if (_selectedSecurityType == null) return const SizedBox();
+  // Ajoute cette méthode dans ton _ConfigurationPageState
 
+Widget _buildAuthFields() {
   switch (_selectedSecurityType) {
-    case 'JWT':
-    case 'Bearer':
+    case 'No Auth':
+      return const SizedBox();
+
+    case 'API Key':
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text("Key"),
+          TextFormField(
+            controller: _consumerKeyController,
+            decoration: _buildInputDecoration("Key", Icons.key),
+          ),
+          const SizedBox(height: 10),
+          const Text("Value"),
+          TextFormField(
+            controller: _codesecuriteController,
+            decoration: _buildInputDecoration("Value", Icons.code),
+          ),
+          const SizedBox(height: 10),
+          DropdownButtonFormField<String>(
+            value: "Header",
+            items: ["Header", "Query Param"]
+                .map((type) => DropdownMenuItem(value: type, child: Text(type)))
+                .toList(),
+            onChanged: (value) {},
+            decoration: _buildInputDecoration("Add to", Icons.tune),
+          )
+        ],
+      );
+
+case 'Bearer Token':
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -248,55 +275,91 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
         ],
       );
 
-    case 'OAuth2':
+    case 'Basic Auth':
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("OAuth2 Token",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          const Text("Username"),
+          TextFormField(
+            controller: _consumerKeyController,
+            decoration: _buildInputDecoration("Username", Icons.person),
+          ),
           const SizedBox(height: 10),
-          Row(
-            children: [
-              Expanded(
-                child: TextFormField(
-                  controller: _codesecuriteController,
-                  decoration: _buildInputDecoration("Access Token", Icons.lock_outline),
-                  validator: RequiredValidator(errorText: "Champ requis"),
-                ),
-              ),
-              const SizedBox(width: 10),
-              ElevatedButton(
-                onPressed: () {
-                  // Ici, tu peux implémenter la logique de récupération du token OAuth2 via une API.
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("Fetching OAuth2 token...")),
-                  );
-                },
-                child: const Text("Get Token"),
-              )
-            ],
+          const Text("Password"),
+          TextFormField(
+            controller: _consumerSecretController,
+            obscureText: _isObscure,
+            decoration: _buildPasswordInput("Password", _isObscure, () {
+              setState(() => _isObscure = !_isObscure);
+            }),
           ),
         ],
       );
 
-    case 'API Key':
+    case 'OAuth 1.0':
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("API Key",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 10),
+          const Text("Consumer Key"),
+          TextFormField(
+            controller: _consumerKeyController,
+            decoration: _buildInputDecoration("Consumer Key", Icons.key),
+          ),
+          const Text("Consumer Secret"),
+          TextFormField(
+            controller: _consumerSecretController,
+            decoration: _buildInputDecoration("Consumer Secret", Icons.lock),
+          ),
+          const Text("Access Token"),
           TextFormField(
             controller: _codesecuriteController,
-            decoration: _buildInputDecoration("Enter API Key", Icons.vpn_key),
-            validator: RequiredValidator(errorText: "Champ requis"),
+            decoration: _buildInputDecoration("Access Token", Icons.token),
           ),
         ],
       );
+
+    case 'OAuth 2.0':
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text("Access Token"),
+          TextFormField(
+            controller: _codesecuriteController,
+            decoration: _buildInputDecoration("Access Token", Icons.token),
+          ),
+        ],
+      );
+
+    case 'JWT':
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      const Text("Access Token (JWT)"),
+      TextFormField(
+        controller: _codesecuriteController,
+        decoration: _buildInputDecoration("Access Token", Icons.vpn_key),
+      ),
+      const SizedBox(height: 10),
+      const Text("Refresh Token (optionnel)"),
+      TextFormField(
+        decoration: _buildInputDecoration("Refresh Token", Icons.refresh),
+      ),
+      const SizedBox(height: 10),
+      const Text("Expiration (en secondes)"),
+      TextFormField(
+        decoration: _buildInputDecoration("Expires In", Icons.timer),
+        keyboardType: TextInputType.number,
+      ),
+    ],
+  );
+
+  
+
 
     default:
       return const SizedBox();
   }
 }
+
 
 }
