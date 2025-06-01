@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend_wepay/screens/integrated/configuration_page.dart';
 import 'package:frontend_wepay/screens/integrated/route_pages.dart';
-import 'package:frontend_wepay/screens/launch/launch.dart';
 import 'package:frontend_wepay/utils/theme.dart';
 
 

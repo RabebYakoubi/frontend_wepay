@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:frontend_wepay/screens/test.dart';
+import 'package:frontend_wepay/screens/integrated/route_pages.dart';
 import 'package:frontend_wepay/utils/constants/colors.dart';
 
 class ServicesPage extends StatefulWidget {
   final int numberOfServices;
 
-  const ServicesPage({super.key, required this.numberOfServices});
+  const ServicesPage({super.key, required this.numberOfServices, });
 
   @override
   State<ServicesPage> createState() => _ServicesPageState();
@@ -206,7 +206,7 @@ class _ServicesPageState extends State<ServicesPage> {
                       print("Service validée");
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const Test()),
+                            MaterialPageRoute(builder: (context) => const RoutePages()),
                           );
                     } else {
                       print("Erreur de validation");
