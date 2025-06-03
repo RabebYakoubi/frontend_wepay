@@ -5,34 +5,92 @@ import 'package:frontend_wepay/utils/constants/colors.dart';
 class ProductCard extends StatelessWidget {
   final Product product;
   final VoidCallback onAdd;
+  final VoidCallback? onEdit;
+  final VoidCallback? onDelete;
+  final bool showedit ;
+  final bool showdelete ;
 
   const ProductCard({
     super.key,
     required this.product,
     required this.onAdd,
+    required this.showedit,
+    required this.showdelete,
+    this.onEdit,
+    this.onDelete,
   });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 300, // Largeur fixe pour scroll horizontal
+      width: 100, // Largeur fixe pour scroll horizontal
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         elevation: 4,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // IMAGE
-            Container(
-              height: 125,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-                image: DecorationImage(
-                  image: AssetImage(product.imageUrl),
-                  fit: BoxFit.cover,
+            // IMAGE with popup menu
+            Stack(
+              children: [
+                Container(
+                  height: MediaQuery.sizeOf(context).width/9,
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                    image: DecorationImage(
+                      image: NetworkImage(product.imageUrl),
+                      fit: BoxFit.fill
+                      ,
+                    ),
+                  ),
                 ),
-              ),
+                if(showedit == true || showdelete == true)
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child: PopupMenuButton<String>(
+                    icon: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: Colors.black54,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: const Icon(Icons.more_vert, color: Colors.white, size: 18),
+                    ),
+                    onSelected: (value) {
+                      if (value == 'edit' && onEdit != null) {
+                        onEdit!();
+                      } else if (value == 'delete' && onDelete != null) {
+                        onDelete!();
+                      }
+                    },
+                    itemBuilder: (BuildContext context) => [
+                      if (showedit == true)
+                        const PopupMenuItem<String>(
+                          value: 'edit',
+                          child: Row(
+                            children: [
+                              Icon(Icons.edit, size: 18),
+                              SizedBox(width: 8),
+                              Text('Edit'),
+                            ],
+                          ),
+                        ),
+                      if (showdelete == true)
+                        const PopupMenuItem<String>(
+                          value: 'delete',
+                          child: Row(
+                            children: [
+                              Icon(Icons.delete, size: 18, color: Colors.red),
+                              SizedBox(width: 8),
+                              Text('Delete', style: TextStyle(color: Colors.red)),
+                            ],
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ],
             ),
 
             // INFOS DU PRODUIT

@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:frontend_wepay/screens/integrated/services_page.dart';
 import 'package:frontend_wepay/utils/constants/colors.dart';
 import 'package:http/http.dart' as http;
+
+import '../../utils/constants/save.dart';
 
 class ConfigurationPage extends StatefulWidget {
   const ConfigurationPage({super.key});
@@ -25,6 +28,31 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
 
   bool _isObscure = true;
 
+
+  void initializevalue()async{
+  setState(() {
+    _labelleController.text = 'Aziza';
+    _selectedType = 'Rest';
+    _urlController.text = 'https://fakestoreapi.com/';
+    _nbserviceController.text = '1';
+    _selectedSecurityType = 'JWT';
+
+  });
+
+  }
+
+
+final _storage = FlutterSecureStorage();
+
+  Future<void> clearServiceData() async {
+    await _storage.delete(key: 'services_data');
+    await SecureStorageHelper.clearAll();
+
+    setState(() {});
+  }
+
+
+
   @override
   void initState() {
     super.initState();
@@ -37,6 +65,7 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
     _selectedType = null;
     _selectedSecurityType = null;
     _formkey = GlobalKey<FormState>();
+    initializevalue();
   }
 
   @override
@@ -150,6 +179,8 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
                           child: ElevatedButton(
                             onPressed: () async {
                               if (_formkey.currentState!.validate()) {
+                                print('inside the valoidation');
+
                                 int nbServices = int.tryParse(_nbserviceController.text) ?? 0;
                                 print("Configuration validée");
 
@@ -164,13 +195,36 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
                                   };
 
                                   try {
-                                    final response = await http.get(Uri.parse(url), headers: headers);
-                                    print('Response: ${response.statusCode} - ${response.body}');
+                                    // final response = await http.get(Uri.parse(url), headers: headers);
+                                    final response = await http.get(
+                                      Uri.parse(url),
+                                      // body: body,
+                                      headers: headers,
+                                    ).timeout(const Duration(seconds: 20));
+                                    if (response.statusCode == 200){
+                                      print('the api is fine with ${response.statusCode} Status code');
+                                    }else {
+                                      print('the api failed');
+                                    }
+
+
                                   } catch (e) {
                                     print('Erreur lors de l\'appel API : $e');
                                   }
                                 }
 
+
+
+
+                                await clearServiceData();
+
+
+
+                                await SecureStorageHelper.save('labelle', _labelleController.text);
+                                await SecureStorageHelper.save('type', _selectedType ?? "");
+                                await SecureStorageHelper.save('url',  _urlController.text);
+                                await SecureStorageHelper.save('nbservice', _nbserviceController.text);
+                                await SecureStorageHelper.save('securityType', _selectedSecurityType?? '');
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -180,6 +234,10 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
                               } else {
                                 print("Erreur de validation");
                               }
+
+
+
+
                             },
                             child: const Text(
                               "Save",
